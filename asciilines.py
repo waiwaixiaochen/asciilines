@@ -9,29 +9,57 @@ import numpy as np
 def changeCanvas(line, canvas, row, column):
   #check if the types of the elements in the rendering comand are correct
   if (type(line[0] is str)) and (type(line[1] is int)) and (type(line[2] is int)) and (line[3] == 'h' or line[3] == 'v') and (type(line[4]) is int) and (line[4] > 0):
-    canvas[line[1],line[2]] = line[0] #find the first position to render
+    #canvas[line[1],line[2]] = line[0] #find the first position to render
     maxColumnInd = column - 1
     maxRowInd = row - 1
     
     #if horizontal line
     if(line[3] == 'h'):
       newInd1 = line[2] + line[4] - 1 #the expected column index after redering
-      if newInd1 <= maxColumnInd: #if the index is in the range, update the element one by one
-        for i in range(line[2], (newInd1 + 1)):
-          canvas[line[1],i] = line[0]
-      else: #if the index is out of range, update the elements until the maximum index is met
-        for i in range(line[2], (maxColumnInd + 1)):
-          canvas[line[1],i] = line[0]
+      if newInd1 < 0: #if out of canvas on the left
+        canvas = canvas
+      elif newInd1 >= 0 and newInd1 <= maxColumnInd: #if the index is in the range, update the element one by one
+        if line[1] < 0 or line[1] > maxRowInd: #if start point row index is out of range
+          canvas = canvas
+        elif line[2] < 0 and line[1] >= 0: #if start point row index is in the range but column index is out of range
+          for i in range(0, (newInd1 + 1)):
+            canvas[line[1],i] = line[0]
+        else: 
+          for i in range(line[2], (newInd1 + 1)):
+            canvas[line[1],i] = line[0]
+      else: #if the index is out of range one the right, update the elements until the maximum index is met
+        if line[1] < 0 or line[1] > maxRowInd:
+          canvas = canvas
+        elif line[2] < 0 and line[1] >= 0:
+          for i in range(0, (maxColumnInd + 1)):
+            canvas[line[1],i] = line[0]
+        else:
+          for i in range(line[2], (maxColumnInd + 1)):
+            canvas[line[1],i] = line[0]
 
     #if vertical line
     if(line[3] == 'v'):
       newInd2 = line[1] + line[4] - 1 #the expected row index after rendering
-      if newInd2 <= maxRowInd: #if the index is in the range, update the element one by one
-        for j in range(line[1], (newInd2 + 1)): 
-          canvas[j,line[2]] = line[0]
-      else: #if the index is out of range, update the elements until the maximum index is met
-        for j in range(line[1], (maxRowInd + 1)):
-          canvas[j,line[2]] = line[0]
+      if newInd2 < 0: #if out of canvas on the top
+        canvas = canvas
+      elif newInd2 >= 0 and newInd2 <= maxRowInd: #if the index is in the range, update the element one by one
+        if line[2] < 0 or line[2] > maxColumnInd:
+          canvas = canvas
+        elif line[1] < 0 and line[2] >= 0:
+          for j in range(0, (newInd2 + 1)):
+            canvas[j,line[2]] = line[0]
+        else:
+          for j in range(line[1], (newInd2 + 1)): 
+            canvas[j,line[2]] = line[0]
+      else: #if the index is out of range on the bottom, update the elements until the maximum index is met
+        if line[2] < 0 or line[2] > maxColumnInd:
+          canvas = canvas
+        elif line[1] < 0 and line[2] >= 0:
+          for j in range(0, (maxRowInd + 1)):
+            canvas[j,line[2]] = line[0]
+        else:
+          for j in range(line[1], (maxRowInd + 1)):
+            canvas[j,line[2]] = line[0]
  
   else: 
     print("Invalid rendering command") #if the type of the elements in the rendering command are incorrect, output an error message
