@@ -21,15 +21,12 @@ The character positions that are part of the rendering command's rendered line s
 A rendering output is produced by executing each of the rendering commands on the canvas. For example, a TVG file containing
 
 3 4
-
 A 1 -1 h 5
 
 should render as
 
 ....
-
 AAAA
-
 ....
 
 
@@ -45,7 +42,7 @@ Note: you can change .tvg file to any other .tvg file under the directory ' test
 ## Bugs, Defects and Failing tests
 ### Bugs I encountered: 
 * It gave wrong canvas when I didn't pay attention to the row and column index. It displayed more characters than I expected. It turned out that I used the wrong index number. 
-* readline() method read the line of .tvg file, but I couldn't use split() method to split the elements since it was not a string. So I had to convert the line to string type bsfore using split() method.
+* readline() method read the line of .tvg file, but I couldn't use split() method to split the elements since it was not a string. So I had to convert the line to string type before using split() method.
 * Indention bugs were detected when I commented out some lines. Python is very sensitive to them.
 * Starting point out of canvas range, including above or below the canvas, or to the left or right of the canvas.
  
