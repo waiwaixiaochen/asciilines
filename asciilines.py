@@ -68,7 +68,7 @@ if os.path.exists(path):
             break
           else:
             changeCanvas(line, canvas, row, column)
-          line = f.readline() #read another line
+            line = f.readline() #read another line
         print(canvas)
 
     else:
